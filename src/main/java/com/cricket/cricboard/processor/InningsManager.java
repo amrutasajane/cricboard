@@ -19,29 +19,24 @@ public class InningsManager {
     this.overProcessor = overProcessor;
   }
 
-  public void manageInnings(ScoreBoard scoreBoard, String teamName) {
+  public void manageInnings(ScoreBoard scoreBoard) {
 
     Scanner sc = new Scanner(System.in);
 
-    TeamScoreBoard teamScoreBoard = scoreBoard.getBattingTeamBoard();
-    TeamScoreBoard fieldScoreBoard = scoreBoard.getFieldingTeamBoard();
-
-    System.out.println("Add Players for team :" + teamName);
+    System.out.println("Add Players for team :" + scoreBoard.getBattingTeam());
 
     List<String> players = new ArrayList<>();
     for (int i = 0; i < scoreBoard.getNoOfPlayers(); i++) {
       players.add(sc.next());
     }
 
-    teamScoreBoard.addPlayers(players);
-    teamScoreBoard.setOnStrikerPlayer(players.get(0));
-    teamScoreBoard.setNonStrikerPlayer(players.get(1));
+    TeamScoreBoard teamScoreBoard = initTeamScoreBoard(scoreBoard, players);
 
     for (int i = 0; i < scoreBoard.getTotalOvers(); i++) {
 
       System.out.println("Over " + (i + 1));
 
-      overProcessor.process(teamScoreBoard, fieldScoreBoard);
+      overProcessor.process(teamScoreBoard, scoreBoard.getFieldingTeamBoard());
 
       System.out.println("ScoreCard:");
 
@@ -51,5 +46,16 @@ public class InningsManager {
         break;
       }
     }
+  }
+
+  private TeamScoreBoard initTeamScoreBoard(ScoreBoard scoreBoard, List<String> players) {
+
+    TeamScoreBoard teamScoreBoard = scoreBoard.getBattingTeamBoard();
+
+    teamScoreBoard.addPlayers(players);
+    teamScoreBoard.setOnStrikerPlayer(players.get(0));
+    teamScoreBoard.setNonStrikerPlayer(players.get(1));
+
+    return teamScoreBoard;
   }
 }

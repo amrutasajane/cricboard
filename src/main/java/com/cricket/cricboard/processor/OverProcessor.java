@@ -37,11 +37,20 @@ public class OverProcessor {
         battingTeamScore.addOverBall();
         i++;
       }
-      if (BallType.WICKET == ballType && battingTeamScore.isEndInnings()) {
+      if (checkWinCondition(battingTeamScore, fieldingTeamScore)) {
+        battingTeamScore.setEndInnings(true);
         return;
       }
     }
 
     battingTeamScore.changeStrike();
+  }
+
+  private boolean checkWinCondition(
+      TeamScoreBoard battingTeamScore, TeamScoreBoard fieldingTeamScore) {
+
+    return (fieldingTeamScore.getTotalScore() != 0
+            && battingTeamScore.getTotalScore() > fieldingTeamScore.getTotalScore())
+        || (battingTeamScore.getWickets() == battingTeamScore.getTotalPlayers() - 1);
   }
 }

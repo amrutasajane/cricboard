@@ -108,10 +108,12 @@ public class TeamScoreBoard {
 
     for (String player : battingScores.keySet()) {
 
+      String playerDisplayName = player;
       if (player.equals(onStriker) || player.equals(nonStriker)) {
-        player = player + "*";
+        playerDisplayName = player + "*";
       }
-      stringBuilder.append(String.format("%10s%10s", player, battingScores.get(player).toString()));
+      stringBuilder.append(
+          String.format("%10s%10s", playerDisplayName, battingScores.get(player).toString()));
       stringBuilder.append("\n");
     }
     stringBuilder.append("Total: ").append(totalScore).append("/").append(wickets);

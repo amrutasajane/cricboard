@@ -12,42 +12,41 @@ import static com.cricket.cricboard.constants.BallType.*;
 @Named
 public class BallProcessorFactory {
 
-    @Inject
-    private WicketProcessor wicketProcessor;
+  private WicketProcessor wicketProcessor;
+  private WideProcessor wideProcessor;
+  private NoBallProcessor noBallProcessor;
+  private BallProcessor ballProcessor;
 
-    @Inject
-    private WideProcessor wideProcessor;
+  private Map<BallType, BallProcessor> processorMap;
 
-    @Inject
-    private NoBallProcessor noBallProcessor;
+  @Inject
+  public BallProcessorFactory(
+      WicketProcessor wicketProcessor,
+      WideProcessor wideProcessor,
+      NoBallProcessor noBallProcessor,
+      BallProcessor ballProcessor) {
+    this.wicketProcessor = wicketProcessor;
+    this.wideProcessor = wideProcessor;
+    this.noBallProcessor = noBallProcessor;
+    this.ballProcessor = ballProcessor;
+    this.addProcessors();
+  }
 
-    @Inject
-    private BallProcessor ballProcessor;
+  public BallProcessor getBallProcessor(BallType ballType) {
 
-    private Map<BallType, BallProcessor> processorMap;
-
-    public BallProcessorFactory() {
-
-        addProcessors();
+    if (ballType != null && processorMap.containsKey(ballType)) {
+      return processorMap.get(ballType);
     }
 
-    public BallProcessor getBallProcessor(BallType ballType) {
+    return ballProcessor;
+  }
 
-        if (ballType != null && processorMap.containsKey(ballType)) {
-            return processorMap.get(ballType);
-        }
+  public void addProcessors() {
 
-        return ballProcessor;
+    processorMap = new EnumMap<>(BallType.class);
 
-    }
-
-    public void addProcessors() {
-
-        processorMap = new EnumMap<>(BallType.class);
-
-        processorMap.put(WICKET, wicketProcessor);
-        processorMap.put(WIDE, wideProcessor);
-        processorMap.put(NO_BALL, noBallProcessor);
-
-    }
+    processorMap.put(WICKET, wicketProcessor);
+    processorMap.put(WIDE, wideProcessor);
+    processorMap.put(NO_BALL, noBallProcessor);
+  }
 }

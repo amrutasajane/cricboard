@@ -2,7 +2,6 @@ package com.cricket.cricboard.processor;
 
 import com.cricket.cricboard.CricBoardException;
 import com.cricket.cricboard.model.ScoreBoard;
-import com.cricket.cricboard.model.TeamScoreBoard;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
@@ -14,9 +13,12 @@ public class MatchManager {
 
   private InningsManager inningsManager;
 
+  private ResultWriter resultWriter;
+
   @Inject
-  public MatchManager(InningsManager inningsManager) {
+  public MatchManager(InningsManager inningsManager, ResultWriter resultWriter) {
     this.inningsManager = inningsManager;
+    this.resultWriter = resultWriter;
   }
 
   public void manage() throws CricBoardException {
@@ -34,31 +36,20 @@ public class MatchManager {
 
     ScoreBoard scoreBoard = initScoreBoard(noOfPlayers, noOfOvers, team1, team2);
 
-    inningsManager.manageInnings(scoreBoard, team1);
+    startGame(scoreBoard, team1, team2);
 
-    inningsManager.manageInnings(scoreBoard, team2);
-
-    printMatchResults(scoreBoard, team1, team2);
+    resultWriter.write(scoreBoard);
   }
 
-  private void printMatchResults(ScoreBoard scoreBoard, String team1, String team2) {
+  private void startGame(ScoreBoard scoreBoard, String team1, String team2) {
 
-    TeamScoreBoard team1Score = scoreBoard.getTeamScore(team1);
+    scoreBoard.setBattingTeam(team1);
+    scoreBoard.setFieldingTeam(team2);
+    inningsManager.manageInnings(scoreBoard);
 
-    TeamScoreBoard team2Score = scoreBoard.getTeamScore(team2);
-
-    if (team1Score.getTotalScore() > team2Score.getTotalScore()) {
-      int diff = team1Score.getTotalScore() - team2Score.getTotalScore();
-      System.out.println("Team 1 won the match by " + diff + " runs");
-
-    } else if (team1Score.getTotalScore() == team2Score.getTotalScore()) {
-      System.out.println("Match Tied");
-
-    } else {
-
-      int wkt = scoreBoard.getNoOfPlayers() - team2Score.getWickets() - 1;
-      System.out.println("Team 2 won the match by " + wkt + " wickets");
-    }
+    scoreBoard.setBattingTeam(team2);
+    scoreBoard.setFieldingTeam(team1);
+    inningsManager.manageInnings(scoreBoard);
   }
 
   private ScoreBoard initScoreBoard(int noOfPlayers, int noOfOvers, String team1, String team2)

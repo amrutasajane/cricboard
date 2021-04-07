@@ -21,12 +21,6 @@ public class WicketProcessor extends BallProcessor {
 
     onStriker.setBattingStatus(BattingStatus.OUT);
 
-    if (teamScoreBoard.getWickets() == teamScoreBoard.getTotalPlayers() - 1) {
-
-      teamScoreBoard.setEndInnings(true);
-      return;
-    }
-
     String nextPlayer = teamScoreBoard.getNextPlayer();
 
     if (StringUtils.isNotEmpty(nextPlayer)) {
