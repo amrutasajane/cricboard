@@ -2,10 +2,13 @@ package com.cricket.cricboard.processor;
 
 import com.cricket.cricboard.CricBoardException;
 import com.cricket.cricboard.model.ScoreBoard;
+import com.cricket.cricboard.model.TeamScoreBoard;
 import org.apache.commons.lang3.StringUtils;
 
 import javax.inject.Inject;
 import javax.inject.Named;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 @Named
@@ -45,11 +48,39 @@ public class MatchManager {
 
     scoreBoard.setBattingTeam(team1);
     scoreBoard.setFieldingTeam(team2);
+
+    registerPlayers(scoreBoard, team1, team2);
+
     inningsManager.manageInnings(scoreBoard);
 
     scoreBoard.setBattingTeam(team2);
     scoreBoard.setFieldingTeam(team1);
     inningsManager.manageInnings(scoreBoard);
+  }
+
+  private void registerPlayers(ScoreBoard scoreBoard, String team1, String team2) {
+
+    Scanner sc = new Scanner(System.in);
+
+    System.out.println("Add Players for team :" + team1);
+
+    List<String> team1PLayers = new ArrayList<>();
+    for (int i = 0; i < scoreBoard.getNoOfPlayers(); i++) {
+      team1PLayers.add(sc.next());
+    }
+
+    TeamScoreBoard battingTeamBoard = scoreBoard.getBattingTeamBoard();
+    battingTeamBoard.addPlayers(team1PLayers);
+
+    System.out.println("Add Players for team :" + team2);
+
+    List<String> team2Players = new ArrayList<>();
+    for (int i = 0; i < scoreBoard.getNoOfPlayers(); i++) {
+      team2Players.add(sc.next());
+    }
+
+    TeamScoreBoard fieldingTeamBoard = scoreBoard.getFieldingTeamBoard();
+    fieldingTeamBoard.addPlayers(team2Players);
   }
 
   private ScoreBoard initScoreBoard(int noOfPlayers, int noOfOvers, String team1, String team2)

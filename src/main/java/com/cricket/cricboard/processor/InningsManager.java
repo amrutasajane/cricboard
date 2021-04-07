@@ -23,14 +23,14 @@ public class InningsManager {
 
     Scanner sc = new Scanner(System.in);
 
-    System.out.println("Add Players for team :" + scoreBoard.getBattingTeam());
+    /*System.out.println("Add Players for team :" + scoreBoard.getBattingTeam());
 
     List<String> players = new ArrayList<>();
     for (int i = 0; i < scoreBoard.getNoOfPlayers(); i++) {
       players.add(sc.next());
-    }
+    }*/
 
-    TeamScoreBoard teamScoreBoard = initTeamScoreBoard(scoreBoard, players);
+    TeamScoreBoard teamScoreBoard = initTeamScoreBoard(scoreBoard);
 
     for (int i = 0; i < scoreBoard.getTotalOvers(); i++) {
 
@@ -45,16 +45,22 @@ public class InningsManager {
       if (teamScoreBoard.isEndInnings()) {
         break;
       }
+
+      TeamScoreBoard fieldingTeamBoard = scoreBoard.getFieldingTeamBoard();
+      fieldingTeamBoard.setCurrentBowler(fieldingTeamBoard.getNextBowler());
     }
   }
 
-  private TeamScoreBoard initTeamScoreBoard(ScoreBoard scoreBoard, List<String> players) {
+  private TeamScoreBoard initTeamScoreBoard(ScoreBoard scoreBoard) {
 
     TeamScoreBoard teamScoreBoard = scoreBoard.getBattingTeamBoard();
 
-    teamScoreBoard.addPlayers(players);
+    List<String> players = teamScoreBoard.getPlayers();
     teamScoreBoard.setOnStrikerPlayer(players.get(0));
     teamScoreBoard.setNonStrikerPlayer(players.get(1));
+
+    TeamScoreBoard fieldingTeamBoard = scoreBoard.getFieldingTeamBoard();
+    fieldingTeamBoard.setCurrentBowler(fieldingTeamBoard.getPlayers().get(0));
 
     return teamScoreBoard;
   }

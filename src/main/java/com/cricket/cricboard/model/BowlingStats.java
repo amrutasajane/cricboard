@@ -7,14 +7,21 @@ import lombok.Setter;
 @Setter
 public class BowlingStats {
 
-    private double overs;
+  private String overs;
 
-    private int maiden;
+  private int balls;
 
-    private int runsConceded;
+  private int maiden;
 
-    private int wickets;
+  private int runsConceded;
 
-    private double economy;
+  private int wickets;
 
+  private double economy;
+
+  public void addRun(int runs) {
+    this.runsConceded += runs;
+    this.balls+=1;
+    this.economy = runsConceded / 6;
+  }
 }

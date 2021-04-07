@@ -4,10 +4,7 @@ import com.cricket.cricboard.constants.BattingStatus;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Getter
 @Setter
@@ -16,9 +13,13 @@ public class TeamScoreBoard {
   // key:playerName
   private Map<String, BattingStats> battingScores;
 
+  private Map<String, BowlingStats> bowlingScores;
+
   private String onStriker;
 
   private String nonStriker;
+
+  private String currentBowler;
 
   private int totalScore;
 
@@ -32,11 +33,21 @@ public class TeamScoreBoard {
 
   public TeamScoreBoard() {
     this.battingScores = new LinkedHashMap<>();
+    this.bowlingScores = new LinkedHashMap<>();
+  }
+
+  public List<String> getPlayers() {
+
+    return new ArrayList<>(battingScores.keySet());
   }
 
   public void addPlayers(List<String> players) {
 
-    players.forEach(player -> battingScores.put(player, new BattingStats()));
+    players.forEach(
+        player -> {
+          battingScores.put(player, new BattingStats());
+          bowlingScores.put(player, new BowlingStats());
+        });
   }
 
   public void setOnStrikerPlayer(String player) {
@@ -80,7 +91,13 @@ public class TeamScoreBoard {
     battingStats.addRuns(runs);
   }
 
-  public String getNextPlayer() {
+  public void addRunToBowler(int runs) {
+
+    BowlingStats bowlingStats = bowlingScores.get(currentBowler);
+    bowlingStats.addRun(runs);
+  }
+
+  public String getNextBatsman() {
 
     Optional<Map.Entry<String, BattingStats>> entry =
         battingScores.entrySet().stream()
@@ -92,6 +109,15 @@ public class TeamScoreBoard {
     }
 
     return null;
+  }
+
+  public String getNextBowler() {
+
+    List<String> players = new ArrayList<>(bowlingScores.keySet());
+
+    int i = players.indexOf(currentBowler);
+
+    return players.get(i + 1);
   }
 
   public int getTotalPlayers() {
@@ -119,6 +145,8 @@ public class TeamScoreBoard {
     stringBuilder.append("Total: ").append(totalScore).append("/").append(wickets);
     stringBuilder.append("\n");
     stringBuilder.append("Overs: ").append(overs);
+    stringBuilder.append("On Strike Player: ").append(onStriker);
+    stringBuilder.append("Current Bowler: ").append(currentBowler);
 
     return stringBuilder.toString();
   }

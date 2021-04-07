@@ -21,7 +21,7 @@ public class WicketProcessor extends DefaultBallProcessor {
 
     onStriker.setBattingStatus(BattingStatus.OUT);
 
-    String nextPlayer = teamScoreBoard.getNextPlayer();
+    String nextPlayer = teamScoreBoard.getNextBatsman();
 
     if (StringUtils.isNotEmpty(nextPlayer)) {
 

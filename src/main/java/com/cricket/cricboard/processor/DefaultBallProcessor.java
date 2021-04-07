@@ -23,5 +23,11 @@ public class DefaultBallProcessor implements BallProcessor {
   }
 
   @Override
-  public void updateBowlingScore(String ball, TeamScoreBoard fieldingTeamScore) {}
+  public void updateBowlingScore(String ball, TeamScoreBoard fieldingTeamScore) {
+
+
+
+
+
+  }
 }
