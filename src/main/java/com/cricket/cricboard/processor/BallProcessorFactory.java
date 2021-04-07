@@ -15,20 +15,20 @@ public class BallProcessorFactory {
   private WicketProcessor wicketProcessor;
   private WideProcessor wideProcessor;
   private NoBallProcessor noBallProcessor;
-  private BallProcessor ballProcessor;
+  private DefaultBallProcessor defaultBallProcessor;
 
-  private Map<BallType, BallProcessor> processorMap;
+  private Map<BallType, DefaultBallProcessor> processorMap;
 
   @Inject
   public BallProcessorFactory(
       WicketProcessor wicketProcessor,
       WideProcessor wideProcessor,
       NoBallProcessor noBallProcessor,
-      BallProcessor ballProcessor) {
+      DefaultBallProcessor defaultBallProcessor) {
     this.wicketProcessor = wicketProcessor;
     this.wideProcessor = wideProcessor;
     this.noBallProcessor = noBallProcessor;
-    this.ballProcessor = ballProcessor;
+    this.defaultBallProcessor = defaultBallProcessor;
     this.addProcessors();
   }
 
@@ -38,7 +38,7 @@ public class BallProcessorFactory {
       return processorMap.get(ballType);
     }
 
-    return ballProcessor;
+    return defaultBallProcessor;
   }
 
   public void addProcessors() {

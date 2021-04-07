@@ -8,10 +8,10 @@ import javax.inject.Named;
 import static com.cricket.cricboard.constants.BallType.NO_BALL;
 
 @Named
-public class NoBallProcessor extends BallProcessor {
+public class NoBallProcessor extends DefaultBallProcessor {
 
     @Override
-    public void process(String ball, TeamScoreBoard teamScoreBoard) {
+    public void updateBattingScore(String ball, TeamScoreBoard teamScoreBoard) {
 
         String runs = ball.replace(NO_BALL.getShortName(), "");
 

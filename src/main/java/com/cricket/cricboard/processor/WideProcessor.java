@@ -8,10 +8,10 @@ import javax.inject.Named;
 import static com.cricket.cricboard.constants.BallType.WIDE;
 
 @Named
-public class WideProcessor extends BallProcessor{
+public class WideProcessor extends DefaultBallProcessor {
 
     @Override
-    public void process(String ball, TeamScoreBoard teamScoreBoard) {
+    public void updateBattingScore(String ball, TeamScoreBoard teamScoreBoard) {
 
         String runs = ball.replace(WIDE.getShortName(), "");
 

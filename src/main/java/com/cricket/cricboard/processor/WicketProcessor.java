@@ -8,10 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 import javax.inject.Named;
 
 @Named
-public class WicketProcessor extends BallProcessor {
+public class WicketProcessor extends DefaultBallProcessor {
 
   @Override
-  public void process(String ball, TeamScoreBoard teamScoreBoard) {
+  public void updateBattingScore(String ball, TeamScoreBoard teamScoreBoard) {
 
     teamScoreBoard.addWicket();
 

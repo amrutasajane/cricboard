@@ -2,25 +2,9 @@ package com.cricket.cricboard.processor;
 
 import com.cricket.cricboard.model.TeamScoreBoard;
 
-import javax.inject.Named;
+public interface BallProcessor {
 
-@Named
-public class BallProcessor {
+  void updateBattingScore(String ball, TeamScoreBoard battingTeamBoard);
 
-  public void process(String ball, TeamScoreBoard teamScoreBoard) {
-
-    int runs = Integer.parseInt(ball);
-
-    teamScoreBoard.addScore(runs);
-
-    teamScoreBoard.addRunToBatsman(runs);
-
-    if (runs == 1 || runs == 3 || runs == 5) {
-      teamScoreBoard.changeStrike();
-    }
-  }
-
-  public void updateBowlingScore(String ball, TeamScoreBoard fieldingTeamScore) {
-
-  }
+  void updateBowlingScore(String ball, TeamScoreBoard fieldingTeamBoard);
 }

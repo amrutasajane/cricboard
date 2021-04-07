@@ -12,11 +12,11 @@ import java.util.Scanner;
 @Named
 public class InningsManager {
 
-  private OverProcessor overProcessor;
+  private DefaultOverProcessor defaultOverProcessor;
 
   @Inject
-  public InningsManager(OverProcessor overProcessor) {
-    this.overProcessor = overProcessor;
+  public InningsManager(DefaultOverProcessor defaultOverProcessor) {
+    this.defaultOverProcessor = defaultOverProcessor;
   }
 
   public void manageInnings(ScoreBoard scoreBoard) {
@@ -36,7 +36,7 @@ public class InningsManager {
 
       System.out.println("Over " + (i + 1));
 
-      overProcessor.process(teamScoreBoard, scoreBoard.getFieldingTeamBoard());
+      defaultOverProcessor.process(teamScoreBoard, scoreBoard.getFieldingTeamBoard());
 
       System.out.println("ScoreCard:");
 
